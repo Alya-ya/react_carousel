@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Carousel.scss';
 
 interface CarouselProps {
-  images?: string[];
+  images: string[]; // теперь обязателен
   step?: number;
   frameSize?: number;
   itemWidth?: number;
@@ -12,18 +12,7 @@ interface CarouselProps {
 }
 
 const Carousel: React.FC<CarouselProps> = ({
-  images = [
-    './img/1.png',
-    './img/2.png',
-    './img/3.png',
-    './img/4.png',
-    './img/5.png',
-    './img/6.png',
-    './img/7.png',
-    './img/8.png',
-    './img/9.png',
-    './img/10.png',
-  ],
+  images,
   step = 3,
   frameSize = 3,
   itemWidth = 130,
@@ -116,7 +105,7 @@ const Carousel: React.FC<CarouselProps> = ({
           id="itemId"
           data-cy="itemId"
           type="number"
-          value={itemWidthValue} // используем value вместо defaultValue
+          value={itemWidthValue}
           onChange={e => setItemWidthValue(parseInt(e.target.value, 10) || 10)}
           min={10}
           style={{ marginLeft: '5px', width: '50px' }}
@@ -151,7 +140,6 @@ const Carousel: React.FC<CarouselProps> = ({
         />
       </div>
 
-      {/* Carousel viewport */}
       <div className="Carousel__viewport" style={{ width: viewportWidth }}>
         <ul
           className="Carousel__list"
@@ -181,7 +169,6 @@ const Carousel: React.FC<CarouselProps> = ({
         </ul>
       </div>
 
-      {/* Buttons */}
       <button
         onClick={handlePrev}
         disabled={isPrevDisabled}
