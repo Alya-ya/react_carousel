@@ -1,1 +1,0 @@
-.Carousel__viewport{overflow:hidden}.Carousel__list{display:flex;gap:10px;margin:0;padding:0;list-style:none;transition:transform .5s ease}.Carousel__list li,.Carousel__list li img{box-sizing:border-box}.Carousel__list li img{display:block;max-width:none}.Carousel__prev,.Carousel__next{cursor:pointer}.Carousel .Disabled{opacity:.5;cursor:not-allowed}
