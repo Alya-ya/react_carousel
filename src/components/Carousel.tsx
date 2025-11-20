@@ -28,13 +28,15 @@ const Carousel: React.FC<CarouselProps> = ({
   frameSize = 3,
   itemWidth = 130,
   gap = 10,
-  animationDuration = 500,
+  animationDuration = 1000,
   infinite = false,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [stepValue, setStepValue] = useState(step);
   const [itemWidthValue, setItemWidthValue] = useState(itemWidth);
   const [frameSizeValue, setFrameSizeValue] = useState(frameSize);
+  const [animationDurationValue, setAnimationDuration] =
+    useState(animationDuration);
 
   const imgRefs = useRef<HTMLImageElement[]>([]);
 
@@ -109,26 +111,15 @@ const Carousel: React.FC<CarouselProps> = ({
       </div>
 
       <div style={{ marginBottom: '10px' }}>
-        <label
-          htmlFor="itemId"
-          onInput={(e: React.FormEvent<HTMLLabelElement>) => {
-            const val = parseInt((e.target as HTMLLabelElement).innerText, 10);
-
-            if (!isNaN(val) && val >= 10) {
-              setItemWidthValue(val);
-            }
-          }}
-        >
-          Item width:
-        </label>
-
+        <label htmlFor="itemId">Item width:</label>
         <input
           id="itemId"
           data-cy="itemId"
           type="number"
-          defaultValue={itemWidthValue}
+          value={itemWidthValue} // используем value вместо defaultValue
           onChange={e => setItemWidthValue(parseInt(e.target.value, 10) || 10)}
           min={10}
+          style={{ marginLeft: '5px', width: '50px' }}
         />
       </div>
 
@@ -145,12 +136,28 @@ const Carousel: React.FC<CarouselProps> = ({
         />
       </div>
 
+      <div style={{ marginBottom: '10px' }}>
+        <label htmlFor="animationId">Animation duration (ms):</label>
+        <input
+          id="animationId"
+          data-cy="animationId"
+          type="number"
+          value={animationDurationValue}
+          onChange={e =>
+            setAnimationDuration(parseInt(e.target.value, 10) || 1000)
+          }
+          min={0}
+          style={{ marginLeft: '5px', width: '60px' }}
+        />
+      </div>
+
+      {/* Carousel viewport */}
       <div className="Carousel__viewport" style={{ width: viewportWidth }}>
         <ul
           className="Carousel__list"
           style={{
             transform: `translateX(-${currentIndex * (itemWidthValue + gap)}px)`,
-            transition: `transform ${animationDuration}ms ease`,
+            transition: `transform ${animationDurationValue}ms ease`,
             gap: gap,
           }}
         >
@@ -174,6 +181,7 @@ const Carousel: React.FC<CarouselProps> = ({
         </ul>
       </div>
 
+      {/* Buttons */}
       <button
         onClick={handlePrev}
         disabled={isPrevDisabled}
