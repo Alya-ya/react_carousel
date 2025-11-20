@@ -26,6 +26,7 @@ const Carousel: React.FC<CarouselProps> = ({
   const [frameSizeValue, setFrameSizeValue] = useState(frameSize);
   const [animationDurationValue, setAnimationDuration] =
     useState(animationDuration);
+  const [infiniteValue, setInfiniteValue] = useState(infinite);
 
   const imgRefs = useRef<HTMLImageElement[]>([]);
 
@@ -39,14 +40,12 @@ const Carousel: React.FC<CarouselProps> = ({
   }, [itemWidthValue]);
 
   const maxIndex = images.length - frameSizeValue;
-  const isPrevDisabled = !infinite && currentIndex === 0;
-  const isNextDisabled = !infinite && currentIndex >= maxIndex;
 
   const handlePrev = () => {
     setCurrentIndex(prev => {
       const candidate = prev - stepValue;
 
-      return infinite
+      return infiniteValue
         ? candidate < 0
           ? maxIndex
           : candidate
@@ -58,7 +57,7 @@ const Carousel: React.FC<CarouselProps> = ({
     setCurrentIndex(prev => {
       const candidate = prev + stepValue;
 
-      return infinite
+      return infiniteValue
         ? candidate > maxIndex
           ? 0
           : candidate
@@ -84,6 +83,10 @@ const Carousel: React.FC<CarouselProps> = ({
 
   const viewportWidth =
     frameSizeValue * itemWidthValue + (frameSizeValue - 1) * gap;
+
+  const isPrevDisabled = !infiniteValue && currentIndex === 0;
+
+  const isNextDisabled = !infiniteValue && currentIndex >= maxIndex;
 
   return (
     <div className="Carousel">
@@ -137,6 +140,18 @@ const Carousel: React.FC<CarouselProps> = ({
           }
           min={0}
           style={{ marginLeft: '5px', width: '60px' }}
+        />
+      </div>
+
+      <div style={{ marginBottom: '10px' }}>
+        <label htmlFor="infiniteId">Infinite mode:</label>
+        <input
+          id="infiniteId"
+          data-cy="infinite"
+          type="checkbox"
+          checked={infiniteValue}
+          onChange={e => setInfiniteValue(e.target.checked)}
+          style={{ marginLeft: '5px' }}
         />
       </div>
 
